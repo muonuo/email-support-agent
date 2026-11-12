@@ -1,13 +1,22 @@
 # Email Support Agent — 基于 LangGraph 的客户支持邮件 Agent
 
-> 课程来源：《Langchain和LangGraph入门到实战》第5章第3节 *Think In LangGraph*。
-> 本项目将课程 notebook 工程化为标准 Python 包（src 布局 + uv 管理 + 单元测试 + CLI 交互）。
+[![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/)
+[![LangGraph](https://img.shields.io/badge/framework-LangGraph-1c3c3c.svg)](https://github.com/langchain-ai/langgraph)
+[![pytest](https://img.shields.io/badge/tests-pytest-0a9edc.svg)](https://docs.pytest.org/)
+[![uv](https://img.shields.io/badge/uv-managed-de5f41.svg)](https://docs.astral.sh/uv/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
+**English** | [中文](#项目简介)
+
+> A LangGraph-based customer support email agent: reads emails, classifies intent with structured LLM output, routes to doc search (RAG) or bug tracking, drafts replies, and pauses for human-in-the-loop review via `interrupt` before sending. Routing uses `Command(goto=...)` inside nodes instead of conditional edges (minimal-edge graph), with per-node `RetryPolicy` and idempotent action nodes.
+
+标准 Python 包组织：src 布局 + uv 管理 + 单元测试 + CLI 交互演示。
 
 ## 项目简介
 
 自动处理客服邮件的 Agent：读取邮件 → LLM 意图识别与分类 → 按意图分流（查文档 / 建工单）→ 生成回复草稿 → 紧急或敏感问题转人工审核 → 发送回复。
 
-**核心思想：Think In LangGraph 五阶段**
+**核心思想：把 Agent 设计拆成五个阶段**
 
 1. 将任务拆解为离散的节点（Node）
 2. 明确每个节点的具体任务
