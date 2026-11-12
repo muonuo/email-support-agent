@@ -46,7 +46,7 @@ BANNER_WIDTH = 60
 
 def print_banner(title: str) -> None:
     print("=" * BANNER_WIDTH)
-    print(f"📧 {title}")
+    print(f"[EMAIL] {title}")
     print("=" * BANNER_WIDTH)
 
 
@@ -101,7 +101,7 @@ def collect_human_decision() -> dict:
 def handle_interrupts(app, config: dict, result: dict) -> None:
     """若执行被 interrupt 暂停（等待人工审核），在终端交互后恢复。"""
     for intr in result.get("__interrupt__") or []:
-        print("\n⏸️  触发人工审核（interrupt），图已暂停")
+        print("\n[PAUSE] 触发人工审核（interrupt），图已暂停")
         show_review_panel(intr.value)
         decision = collect_human_decision()
         app.invoke(Command(resume=decision), config)
@@ -120,7 +120,7 @@ def main() -> None:
     app = build_graph()
     for scenario in SCENARIOS:
         run_scenario(app, scenario)
-    print("✅ 全部场景执行完成")
+    print("[OK] 全部场景执行完成")
 
 
 if __name__ == "__main__":
